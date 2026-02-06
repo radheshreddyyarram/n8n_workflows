@@ -1,0 +1,233 @@
+{
+  "name": "AP_TELUGU_NEWS",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9,
+              "triggerAtMinute": 30
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -160,
+        32
+      ],
+      "id": "d04fed15-f805-4fd3-ab66-705fd484e3be",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        288,
+        32
+      ],
+      "id": "f9c6ad9d-0384-47fc-9174-6f24421d2b25",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.data }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "***You are an News Summerizer Assistant***\nAnalyze the news articles which are in english language and create an email summary in telugu language.\n\n***Language: Everything should be converted into telugu language***\n***Language: Everything should be converted into telugu language***\n***Language: Everything should be converted into telugu language***\n\n***For each article***\n    1.Create a headline in ALL CAPS\n    2.Write a 3-4 sentence summary\n    3.Include the article link\n\n***Format As***\n(BOLD)Today's Andhra Pradhesh Political News\n\n(BOLD)Hi There,\n\n(BOLD)Here's Your Political News Summary.\n\n(BOLD)serial number. HEADLINE IN CAPS \n\n\nSummary of what happened and why it matters...\n\nRead more: [Link]\n_____________________________________________________________________________________________________________________\n\nBest regards,\nAI News Bot.\n\n***Language: Everything should be converted into telugu language***"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        512,
+        32
+      ],
+      "id": "99f13c59-7c47-408a-b945-9c91660fd68d",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        512,
+        224
+      ],
+      "id": "40d9f40c-df26-4962-8e55-e6f8813837c2",
+      "name": "News_Summerizer",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "95spPgnCaTJoQY2c",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "yarramradheshreddy@gmail.com",
+        "subject": "TODAY'S ANDHRA-PRADESH POLITICAL NEWS",
+        "emailType": "text",
+        "message": "={{ $json.text }}",
+        "options": {
+          "appendAttribution": false,
+          "bccList": "brevankumargoud@gmail.com"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        864,
+        32
+      ],
+      "id": "ce5ba342-5f3b-4679-ba9f-3e52d97c703b",
+      "name": "Send a message",
+      "webhookId": "f2c131cd-0a9a-4475-a806-656b8ac23cab",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "XWEWc8Bf0DZOHEwp",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "google_events"
+            },
+            {
+              "name": "q",
+              "value": "Political Events in Andhra Pradhesh"
+            },
+            {
+              "name": "hl",
+              "value": "en"
+            },
+            {
+              "name": "gl",
+              "value": "us"
+            },
+            {
+              "name": "api_key",
+              "value": "a213bdfc3fda485c75f91c0a97a43d5b568c9a58a2da064febb4b352e5ef5090"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        64,
+        32
+      ],
+      "id": "038fb013-39ec-4809-a20e-d7e75978bbee",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2026-02-05T21:00:20.988+05:30",
+          "Readable date": "February 5th 2026, 9:00:20 pm",
+          "Readable time": "9:00:20 pm",
+          "Day of week": "Thursday",
+          "Year": "2026",
+          "Month": "February",
+          "Day of month": "05",
+          "Hour": "21",
+          "Minute": "00",
+          "Second": "20",
+          "Timezone": "Asia/Kolkata (UTC+05:30)"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "News_Summerizer": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3c55aaf5-3cbc-41ed-9c02-81e25cde9ded",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f62ef4216951ebda973264b67a4f00af9a0779042ec8a13b67b6f765c8e34bfc"
+  },
+  "id": "IANA7O1otbF8b05G",
+  "tags": []
+}

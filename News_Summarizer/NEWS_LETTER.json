@@ -1,0 +1,323 @@
+{
+  "name": "NEWS_LETTER",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1216,
+        224
+      ],
+      "id": "3dcfc6f8-1b4c-4d46-b05b-7cde215712f8",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -544,
+        224
+      ],
+      "id": "712582ba-5a62-4358-b82f-54b8d28bd0db",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.data }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "***You are an News Summerizer Assistant***\nAnalyze the news articles and create an email summary.\n\n*** Dont change the default language ***\n***For each article***\n    1.Create a headline in ALL CAPS\n    2.Write a 3-4 sentence summary\n    3.Include the article link\n\n***Format as***\nSubject: Today's Cybersecurity News\n\nHi there,\n\nHere's your Cyber-Security news Summary.\n\nserial number. HEADLINE IN CAPS \n\nSummary of what happened and why it matters...\n\nRead more: [Link]\n_____________________________________________________________________________________________________________________\n\nBest regards,\nAI News Bot.\n\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -320,
+        224
+      ],
+      "id": "9267d9b6-a309-4ea2-8932-6db000dbbf51",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        448
+      ],
+      "id": "0329b7b0-bd3c-4f62-bb94-b879e6926f08",
+      "name": "News_Summerizer",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "95spPgnCaTJoQY2c",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "yarramradheshreddy@gmail.com",
+        "subject": "TODAY'S AI NEWS FOR YOU",
+        "emailType": "text",
+        "message": "={{ $json.text }}",
+        "options": {
+          "appendAttribution": false,
+          "bccList": "brevankumargoud@gmail.com"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        32,
+        224
+      ],
+      "id": "f56a3ef3-bd6a-4237-9f88-6eeb5aa229bf",
+      "name": "Send a message",
+      "webhookId": "f2c131cd-0a9a-4475-a806-656b8ac23cab",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "XWEWc8Bf0DZOHEwp",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://www.bleepingcomputer.com/feed/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -992,
+        224
+      ],
+      "id": "9fb55123-86aa-4dff-a050-aa6d775479c7",
+      "name": "Bleepingcomputer"
+    },
+    {
+      "parameters": {
+        "url": "https://feeds.feedburner.com/TheHackersNews",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -992,
+        32
+      ],
+      "id": "64b9a69a-efe7-4019-9029-b70688072fed",
+      "name": "TheHackerNews"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -768,
+        208
+      ],
+      "id": "5ec5fa70-73dd-4f93-8053-7b97ca4e1e6c",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "google_events"
+            },
+            {
+              "name": "q",
+              "value": "Cyber Events in India"
+            },
+            {
+              "name": "hl",
+              "value": "en"
+            },
+            {
+              "name": "gl",
+              "value": "us"
+            },
+            {
+              "name": "api_key",
+              "value": "a213bdfc3fda485c75f91c0a97a43d5b568c9a58a2da064febb4b352e5ef5090"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -992,
+        416
+      ],
+      "id": "dd6c42ce-71e1-4434-96cf-2bf0806a0936",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2026-02-05T21:00:20.988+05:30",
+          "Readable date": "February 5th 2026, 9:00:20 pm",
+          "Readable time": "9:00:20 pm",
+          "Day of week": "Thursday",
+          "Year": "2026",
+          "Month": "February",
+          "Day of month": "05",
+          "Hour": "21",
+          "Minute": "00",
+          "Second": "20",
+          "Timezone": "Asia/Kolkata (UTC+05:30)"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "TheHackerNews",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Bleepingcomputer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "News_Summerizer": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bleepingcomputer": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "TheHackerNews": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Kolkata",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "fe731d05-30ce-46c5-b1af-3c6d32448c64",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f62ef4216951ebda973264b67a4f00af9a0779042ec8a13b67b6f765c8e34bfc"
+  },
+  "id": "FwxSgTJAzStm1tGz",
+  "tags": []
+}
