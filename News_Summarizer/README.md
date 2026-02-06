@@ -108,4 +108,4 @@ You will receive:
 ---
 
 ## Author
-Built using **n8n automation**, **Gemini AI**, and **public cybersecurity news sources**.
+**RADHESH REDDY YARRAM**.
