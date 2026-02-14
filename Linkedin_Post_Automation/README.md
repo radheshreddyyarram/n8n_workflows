@@ -61,23 +61,17 @@ want a repeatable, scalable LinkedIn content workflow.
 
 ## 📊 Google Sheet Schema
 
-  Column                Description
-  --------------------- ----------------------------
-  PROJECT DESCRIPTION   Base project information
-  --------------------- ----------------------------
-  GITHUB LINKS          Repository reference
-  --------------------- ----------------------------
-  IMAGE LINKS           Media attachment link
-  --------------------- ----------------------------
-  OUTPUT                Initial AI-generated content
-  --------------------- ----------------------------
-  MODIFICATIONS         Requested edits
-  --------------------- ----------------------------
-  MODIFIED OUTPUT       Final approved version
-  --------------------- ----------------------------
-  APPROVAL              APPROVED / PENDING
-  --------------------- ----------------------------
-  LINKEDIN STATUS       POSTED / NOT POSTED
+| Column              | Description                     |
+|---------------------|---------------------------------|
+| PROJECT DESCRIPTION | Base project information        |
+| GITHUB LINKS        | Repository reference            |
+| IMAGE LINKS         | Media attachment link           |
+| OUTPUT              | Initial AI-generated content    |
+| MODIFICATIONS       | Requested edits                 |
+| MODIFIED OUTPUT     | Final approved version          |
+| APPROVAL            | APPROVED / PENDING              |
+| LINKEDIN STATUS     | POSTED / NOT POSTED             |
+
 
 ------------------------------------------------------------------------
 
