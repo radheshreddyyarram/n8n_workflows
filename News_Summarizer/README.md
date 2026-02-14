@@ -83,6 +83,9 @@ You will receive:
 
 ---
 
+![Workflow Architecture](assets/News_Summarizer_Mail.jpg)
+---
+
 ## Requirements
 
 - n8n (local or cloud)
