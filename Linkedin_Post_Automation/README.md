@@ -19,11 +19,11 @@ scalable, and production-ready automation pipeline.
 
 The LinkedIn Post Automation Engine enables:
 
--   Automated LinkedIn post generation using AI\
--   Structured content storage in Google Sheets\
--   Precision-based modification system\
--   Manual approval control\
--   Automatic LinkedIn publishing\
+-   Automated LinkedIn post generation using AI
+-   Structured content storage in Google Sheets
+-   Precision-based modification system
+-   Manual approval control
+-   Automatic LinkedIn publishing
 -   Post-status tracking
 
 Designed for creators, developers, startups, and personal brands who
@@ -51,10 +51,10 @@ want a repeatable, scalable LinkedIn content workflow.
 
 ### Core Components
 
--   **n8n** -- Workflow automation engine\
--   **Groq LLM / Gemini Model** -- AI content generation\
--   **Google Sheets API** -- Content management\
--   **LinkedIn API** -- Automated publishing\
+-   **n8n** -- Workflow automation engine
+-   **Groq LLM / Gemini Model** -- AI content generation
+-   **Google Sheets API** -- Content management
+-   **LinkedIn API** -- Automated publishing
 -   **Conditional Logic & Merge Nodes** -- Workflow orchestration
 
 ------------------------------------------------------------------------
@@ -354,10 +354,10 @@ Else → Goes to Wait Node and wait for the Approval.
 
 ## 🔮 Future Roadmap
 
--   Scheduled auto-posting\
--   Auto-generated image support\
--   Analytics tracking dashboard\
--   Multi-platform publishing (Twitter/X, Instagram)\
+-   Scheduled auto-posting
+-   Auto-generated image support
+-   Analytics tracking dashboard
+-   Multi-platform publishing (Twitter/X, Instagram)
 -   Hashtag performance optimization
 
 ------------------------------------------------------------------------
