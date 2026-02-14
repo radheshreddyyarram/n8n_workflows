@@ -139,7 +139,9 @@ as:
      Triggers the workflow with project details.
 - 2️⃣ LinkedIn Post Generator
 
-     Uses AI model to generate structured LinkedIn **content:**
+     Uses AI model to generate structured LinkedIn
+
+ **CONTENT:**
 - Hook line
 - Problem
 - Solution
@@ -155,7 +157,7 @@ as:
 - 5️⃣ Approval Check (IF Node)
 
      If APPROVAL = APPROVED → Continue
-Else → Stop workflow
+Else → Goes to Wait Node and wait for the Approval.
 - 6️⃣ Create LinkedIn Post
 
      Publishes the approved content directly to LinkedIn.
