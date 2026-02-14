@@ -59,6 +59,197 @@ want a repeatable, scalable LinkedIn content workflow.
 
 ------------------------------------------------------------------------
 
+## ⚙️ Workflow Node Breakdown
+
+Below is a detailed explanation of each node used in the LinkedIn Post Automation workflow.
+
+---
+
+### 1️⃣ Description (Google Sheets Trigger)
+
+**Purpose:**  
+Monitors the Google Sheet for updates.
+
+**What It Does:**
+- Watches specific columns (PROJECT DESCRIPTION, GITHUB LINKS)
+- Triggers the workflow when a row is updated
+- Sends sheet data into the workflow pipeline
+
+---
+
+### 2️⃣ Download File (Google Drive Node)
+
+**Purpose:**  
+Fetches the image linked in the sheet.
+
+**What It Does:**
+- Reads IMAGE LINKS column
+- Downloads the file from Google Drive
+- Passes the media file for LinkedIn posting
+
+---
+
+### 3️⃣ LINKEDIN POST GENERATOR (LLM Chain)
+
+**Purpose:**  
+Generates structured LinkedIn content using AI.
+
+**What It Does:**
+- Reads PROJECT DESCRIPTION
+- Reads GITHUB LINKS
+- Analyzes project type and domain
+- Generates:
+  - Professional intro
+  - Problem statement
+  - Solution
+  - Workflow explanation
+  - Tools used
+  - Hashtags
+- Outputs structured LinkedIn-ready content
+
+---
+
+### 4️⃣ Groq Chat Model (AI Model)
+
+**Purpose:**  
+Acts as the language model powering the generator.
+
+**What It Does:**
+- Processes the prompt instructions
+- Produces human-like LinkedIn post content
+- Maintains professional formatting and tone
+
+---
+
+### 5️⃣ OUTPUT (Google Sheets Update Node)
+
+**Purpose:**  
+Stores the generated content in Google Sheets.
+
+**What It Does:**
+- Writes AI-generated post into the OUTPUT column
+- Keeps row mapping consistent using row_number
+
+---
+
+### 6️⃣ Wait Node
+
+**Purpose:**  
+Creates a delay for modification handling.
+
+**What It Does:**
+- Waits for user to review the post
+- Allows time for modifications to be added in sheet
+- Prevents immediate publishing
+
+---
+
+### 7️⃣ MODIFICATIONS (Google Sheets Read Node)
+
+**Purpose:**  
+Reads user-requested changes.
+
+**What It Does:**
+- Fetches MODIFICATIONS column
+- Sends both OUTPUT and MODIFICATIONS to the editor node
+
+---
+
+### 8️⃣ POST MODIFIER (LLM Chain)
+
+**Purpose:**  
+Applies precise edits without rewriting entire post.
+
+**What It Does:**
+- If MODIFICATIONS is empty → returns original OUTPUT
+- If instructions exist → applies only specified changes
+- Preserves structure, tone, emojis, and formatting
+
+---
+
+### 9️⃣ Groq Chat Model (Editor Model)
+
+**Purpose:**  
+Processes modification instructions.
+
+**What It Does:**
+- Applies minimal, precise changes
+- Avoids adding new content unless requested
+
+---
+
+### 🔟 MODIFIED OUTPUT (Google Sheets Update Node)
+
+**Purpose:**  
+Stores final edited version.
+
+**What It Does:**
+- Writes refined content into MODIFIED OUTPUT column
+- Prepares content for approval check
+
+---
+
+### 1️⃣1️⃣ IF Node (Approval Gate)
+
+**Purpose:**  
+Controls publishing logic.
+
+**What It Does:**
+- Checks if APPROVAL column equals "APPROVED"
+- If TRUE → continue to publish
+- If FALSE → loop back to Wait
+
+---
+
+### 1️⃣2️⃣ Merge Node
+
+**Purpose:**  
+Combines content and media.
+
+**What It Does:**
+- Merges modified text with downloaded image
+- Prepares final payload for LinkedIn API
+
+---
+
+### 1️⃣3️⃣ Create a Post (LinkedIn Node)
+
+**Purpose:**  
+Publishes the LinkedIn post.
+
+**What It Does:**
+- Uses LinkedIn OAuth credentials
+- Posts MODIFIED OUTPUT text
+- Attaches downloaded image
+- Publishes to personal LinkedIn account
+
+---
+
+### 1️⃣4️⃣ Update Row in Sheet
+
+**Purpose:**  
+Updates publishing status.
+
+**What It Does:**
+- Sets LINKEDIN STATUS = POSTED
+- Marks completion of automation cycle
+
+---
+
+## 🔁 Complete Flow Summary
+
+Google Sheet Update  
+→ AI Post Generation  
+→ Store Output  
+→ Optional Modification  
+→ Approval Check  
+→ Publish to LinkedIn  
+→ Update Status  
+
+This ensures a controlled, automated, and production-ready LinkedIn publishing pipeline.
+
+------------------------------------------------------------------------
+
 ## 📊 Google Sheet Schema
 
 | Column              | Description                     |
