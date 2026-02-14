@@ -29,6 +29,9 @@ The LinkedIn Post Automation Engine enables:
 Designed for creators, developers, startups, and personal brands who
 want a repeatable, scalable LinkedIn content workflow.
 
+## Workflow Architecture
+
+![Workflow Architecture](assets/Linkedin_Automation.jpg)
 ------------------------------------------------------------------------
 
 ## 🏗️ System Architecture
