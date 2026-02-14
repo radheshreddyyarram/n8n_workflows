@@ -1,0 +1,913 @@
+{
+  "name": "LINKEDIN_POST_GENERATOR",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json['IMAGE LINKS'] }}",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        608,
+        -320
+      ],
+      "id": "d1246ec8-10ec-402f-8aab-b4411184391c",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Ce3zRwXnJa1InO5Q",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU",
+          "mode": "list",
+          "cachedResultName": "Linkedin post automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU/edit#gid=0"
+        },
+        "event": "rowUpdate",
+        "options": {
+          "columnsToWatch": [
+            "PROJECT DESCRIPTION",
+            "GITHUB LINKS"
+          ],
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRangeA1",
+              "range": "A1:C2"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -848,
+        -64
+      ],
+      "id": "c38ce3e5-c5f5-4924-93fa-679df4f3bbf5",
+      "name": "Description",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "k6D29ZLATnv8gpr3",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You Are A Professional LinkedIn Content Writer.\n\nYou Will Be Provided With:\n• A Post Description : {{ $json['PROJECT DESCRIPTION'] }} (From The “Project Description” Field)\n• A GitHub Link : {{ $json['GITHUB LINKS'] }}(From The “GitHub Links” Field)\n• An Image Related To The Post (Project Or Certificate)\n\nYour Task Is To Analyze The Description And Image, Determine Whether The Post Is:\nA) A Project Worked On\nOR\nB) A Certificate / Achievement\n\nAdditionally, Detect The Primary Domain Of The Post From The Description And Image, Such As:\n• Cybersecurity\n• Artificial Intelligence / Machine Learning\n• Web Development\n• DevOps / Cloud\n• Software / Programming\n• Data / Automation\n\nUse Emojis That Match The Detected Domain (Avoid Generic Or Random Emojis).\n\n────────────────────────\nINTRO (MANDATORY – SINGLE LINE ONLY WITH ONE EMOJI)\n────────────────────────\nStart With One Clear, Professional, Human-Sounding Line Such As:\n• “Excited To Share A Hands-On Project Experience…”\n• “Happy To Share My First Practical Project…”\n• “Glad To Share A Recent Learning Milestone…”\n• “Recently Completed A Hands-On Learning Experience…”\n\nRules For Intro:\n• Only One Line\n• No Emojis\n• First Letter Capitalized\n• Natural And Professional Tone\n\n────────────────────────\nIF IT IS A PROJECT POST\n────────────────────────\n\nFormat The Post Into Clearly Separated Sections With Headings And Domain-Aware, Innovative Emojis (No Number Emojis).\n\n(use any one emoji)🚧🔐 Problem We Faced  \nExplain The Real-World Problem Or Challenge Clearly.\n\n(use any one emoji)🛠️🧠 How We Solved It  \nDescribe The Strategy, Approach, Or Thought Process Used.\n\n(use any one emoji)⚙️🔍 How It Works  \nExplain The Workflow Or Logic In A Simple And Structured Way.\n\n(use any one emoji)🧰🧑‍💻 Tools & Technologies Used  \nList Each Tool On A Separate Bullet Point Using Creative Bullets And Domain-Aware Emojis.\nExample:\n• 🐍 Python  \n• 🌐 Flask  \n• 🐳 Docker  \n• ☁️ Cloud Platform  \n• 🔐 Security Tool  \n\n(use any one emoji)📘🎯 What We Learned  \nHighlight Key Skills, Concepts, And Professional Growth.\n\n(use any one emoji)🔗📂 GitHub Repository  \nNaturally Include The Provided GitHub Link.\n\n(use any one emoji)🤝🌟 Collaboration & Credits  \nIf Another Person Is Involved, Give Them A Clear And Respectful Shout-Out.\nIf No Collaborator Is Mentioned, Skip This Section.\n\n(use any one emoji)🏷️📌 Hashtags  \nAdd 10–12 Relevant And Domain-Specific Hashtags.\n\n────────────────────────────\nIF IT IS A CERTIFICATE / ACHIEVEMENT POST\n────────────────────────────\n\nUse Domain-Aware Emojis Here As Well.\n\n(use any one emoji)🏆📜 Achievement  \nClearly Mention What Was Achieved Or Certified.\n\n(use any one emoji)📚🧠 What I Learned  \nMention Knowledge, Skills, Or Exposure Gained.\n\n(use any one emoji)🙏🌟 Special Thanks  \nThank The Organizers, Platform, Or Institution.\n\n(use any one emoji)🏷️📌 Hashtags  \nAdd 10–12 Relevant Hashtags Related To The Achievement Domain.\n\n────────────────────────\nDOMAIN → EMOJI GUIDELINES\n────────────────────────\nUse Emojis Based On The Detected Domain:\n\n• Cybersecurity → 🔐🛡️🕵️‍♂️🌐⚠️  \n• AI / ML → 🤖🧠📊✨  \n• Web Development → 🌐🖥️🎨⚡  \n• DevOps / Cloud → ☁️🐳🔁🚀  \n• Automation / Workflows → 🔄⚙️📌  \n• Programming / Software → 💻🧑‍💻📂  \n\nDo Not Overuse Emojis. Use Them To Enhance Clarity And Engagement.\n\n────────────────────────\nSTYLE & TONE RULES\n────────────────────────\n\n• Every Sentence Must Start With A Capital Letter  \n• Professional, Confident, And Human-Written  \n• Should Not Sound AI-Generated  \n• Use Short Paragraphs And Clear Spacing  \n• Emojis Must Be Relevant And Context-Aware  \n• Do Not Use Number Emojis  \n• Do Not Mention AI, LLM, Or “This Image Shows”  \n• Do Not Use Marketing Or Sales Language  \n• Do Not Add URLs Other Than The Provided GitHub Link  \n• Keep The Post Concise And LinkedIn-Friendly  \n\nReturn Only The Final LinkedIn Post.  \nDo Not Add Explanations, Labels, Or Extra Commentary.\n",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You Are A Professional LinkedIn Content Writer.\n\nYou Will Be Provided With:\n• A Post Description : {{ $json['PROJECT DESCRIPTION'] }} (From The “Project Description” Field)\n• A GitHub Link : {{ $json['GITHUB LINKS'] }}(From The “GitHub Links” Field)\n• An Image Related To The Post (Project Or Certificate)\n\nYour Task Is To Analyze The Description And Image, Determine Whether The Post Is:\nA) A Project Worked On\nOR\nB) A Certificate / Achievement\n\nAdditionally, Detect The Primary Domain Of The Post From The Description And Image, Such As:\n• Cybersecurity\n• Artificial Intelligence / Machine Learning\n• Web Development\n• DevOps / Cloud\n• Software / Programming\n• Data / Automation\n\nUse Emojis That Match The Detected Domain (Avoid Generic Or Random Emojis).\n\n────────────────────────\nINTRO (MANDATORY – SINGLE LINE ONLY WITH ONE EMOJI)\n────────────────────────\nStart With One Clear, Professional, Human-Sounding Line Such As:\n• “Excited To Share A Hands-On Project Experience…”\n• “Happy To Share My First Practical Project…”\n• “Glad To Share A Recent Learning Milestone…”\n• “Recently Completed A Hands-On Learning Experience…”\n\nRules For Intro:\n• Only One Line\n• No Emojis\n• First Letter Capitalized\n• Natural And Professional Tone\n\n────────────────────────\nIF IT IS A PROJECT POST\n────────────────────────\n\nFormat The Post Into Clearly Separated Sections With Headings And Domain-Aware, Innovative Emojis (No Number Emojis).\n\n(use any one emoji)🚧🔐 Problem We Faced  \nExplain The Real-World Problem Or Challenge Clearly.\n\n(use any one emoji)🛠️🧠 How We Solved It  \nDescribe The Strategy, Approach, Or Thought Process Used.\n\n(use any one emoji)⚙️🔍 How It Works  \nExplain The Workflow Or Logic In A Simple And Structured Way.\n\n(use any one emoji)🧰🧑‍💻 Tools & Technologies Used  \nList Each Tool On A Separate Bullet Point Using Creative Bullets And Domain-Aware Emojis.\nExample:\n• 🐍 Python  \n• 🌐 Flask  \n• 🐳 Docker  \n• ☁️ Cloud Platform  \n• 🔐 Security Tool  \n\n(use any one emoji)📘🎯 What We Learned  \nHighlight Key Skills, Concepts, And Professional Growth.\n\n(use any one emoji)🔗📂 GitHub Repository  \nNaturally Include The Provided GitHub Link.\n\n(use any one emoji)🤝🌟 Collaboration & Credits  \nIf Another Person Is Involved, Give Them A Clear And Respectful Shout-Out.\nIf No Collaborator Is Mentioned, Skip This Section.\n\n(use any one emoji)🏷️📌 Hashtags  \nAdd 10–12 Relevant And Domain-Specific Hashtags.\n\n────────────────────────────\nIF IT IS A CERTIFICATE / ACHIEVEMENT POST\n────────────────────────────\n\nUse Domain-Aware Emojis Here As Well.\n\n(use any one emoji)🏆📜 Achievement  \nClearly Mention What Was Achieved Or Certified.\n\n(use any one emoji)📚🧠 What I Learned  \nMention Knowledge, Skills, Or Exposure Gained.\n\n(use any one emoji)🙏🌟 Special Thanks  \nThank The Organizers, Platform, Or Institution.\n\n(use any one emoji)🏷️📌 Hashtags  \nAdd 10–12 Relevant Hashtags Related To The Achievement Domain.\n\n────────────────────────\nDOMAIN → EMOJI GUIDELINES\n────────────────────────\nUse Emojis Based On The Detected Domain:\n\n• Cybersecurity → 🔐🛡️🕵️‍♂️🌐⚠️  \n• AI / ML → 🤖🧠📊✨  \n• Web Development → 🌐🖥️🎨⚡  \n• DevOps / Cloud → ☁️🐳🔁🚀  \n• Automation / Workflows → 🔄⚙️📌  \n• Programming / Software → 💻🧑‍💻📂  \n\nDo Not Overuse Emojis. Use Them To Enhance Clarity And Engagement.\n\n────────────────────────\nSTYLE & TONE RULES\n────────────────────────\n\n• Every Sentence Must Start With A Capital Letter  \n• Professional, Confident, And Human-Written  \n• Should Not Sound AI-Generated  \n• Use Short Paragraphs And Clear Spacing  \n• Emojis Must Be Relevant And Context-Aware  \n• Do Not Use Number Emojis  \n• Do Not Mention AI, LLM, Or “This Image Shows”  \n• Do Not Use Marketing Or Sales Language  \n• Do Not Add URLs Other Than The Provided GitHub Link  \n• Keep The Post Concise And LinkedIn-Friendly  \n\nReturn Only The Final LinkedIn Post.  \nDo Not Add Explanations, Labels, Or Extra Commentary.\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -624,
+        80
+      ],
+      "id": "7e5f088e-d27d-466d-87a3-024e44ef59c5",
+      "name": "LINKEDIN POST GENERATOR"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -48,
+        80
+      ],
+      "id": "cf48851b-ccec-4c88-bac8-5ce93137826a",
+      "name": "Wait",
+      "webhookId": "c0e5aa82-453a-4579-8bf9-f46f8f083a35"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You Are A Professional Content Editor And Refinement Assistant.\n\nYou Will Be Provided With Two Fields:\n• OUTPUT : {{ $json.OUTPUT }}  The Generated LinkedIn Post Content\n• MODIFICATIONS : {{ $json.MODIFICATIONS }} Optional Change Instructions Provided By The User\n\nYour Task Is To Carefully Follow These Rules:\n\n1. First, Read The OUTPUT Completely.\n2. Then, Check The MODIFICATIONS Field.\n\nDECISION LOGIC:\n• If The MODIFICATIONS Field Is Empty, Null, Or Contains No Clear Instructions:\n  → Return The OUTPUT Exactly As It Is.\n  → Do Not Rewrite, Rephrase, Or Improve Anything.\n\n• If The MODIFICATIONS Field Contains Any Instructions:\n  → Apply Only The Explicitly Mentioned Modifications.\n  → Do Not Change Any Other Part Of The OUTPUT.\n  → Preserve The Original Tone, Style, Emojis, Formatting, And Structure Unless The Modification Explicitly Requires A Change.\n\nMODIFICATION RULES:\n• Apply Changes Precisely And Minimally.\n• Do Not Add New Sections Unless Requested.\n• Do Not Remove Content Unless Explicitly Asked.\n• Do Not Add Emojis Unless Requested.\n• Do Not Remove Emojis Unless Requested.\n• Do Not Change Capitalization, Headings, Or Hashtags Unless Requested.\n• Do Not Introduce AI-Style Or Generic Language.\n\nOUTPUT RULES:\n• Return Only The Final Updated Content.\n• Do Not Add Explanations, Comments, Or Change Logs.\n• Do Not Mention The Existence Of Instructions Or Modifications.\n• The Final Result Must Look Fully Human-Written And LinkedIn-Ready.\n\nYour Goal Is To Act As A Precise Editor, Not A Rewriter.\n",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You Are A Professional Content Editor And Refinement Assistant.\n\nYou Will Be Provided With Two Fields:\n• OUTPUT : {{ $json.OUTPUT }}  The Generated LinkedIn Post Content\n• MODIFICATIONS : {{ $json.MODIFICATIONS }} Optional Change Instructions Provided By The User\n\nYour Task Is To Carefully Follow These Rules:\n\n1. First, Read The OUTPUT Completely.\n2. Then, Check The MODIFICATIONS Field.\n\nDECISION LOGIC:\n• If The MODIFICATIONS Field Is Empty, Null, Or Contains No Clear Instructions:\n  → Return The OUTPUT Exactly As It Is.\n  → Do Not Rewrite, Rephrase, Or Improve Anything.\n\n• If The MODIFICATIONS Field Contains Any Instructions:\n  → Apply Only The Explicitly Mentioned Modifications.\n  → Do Not Change Any Other Part Of The OUTPUT.\n  → Preserve The Original Tone, Style, Emojis, Formatting, And Structure Unless The Modification Explicitly Requires A Change.\n\nMODIFICATION RULES:\n• Apply Changes Precisely And Minimally.\n• Do Not Add New Sections Unless Requested.\n• Do Not Remove Content Unless Explicitly Asked.\n• Do Not Add Emojis Unless Requested.\n• Do Not Remove Emojis Unless Requested.\n• Do Not Change Capitalization, Headings, Or Hashtags Unless Requested.\n• Do Not Introduce AI-Style Or Generic Language.\n\nOUTPUT RULES:\n• Return Only The Final Updated Content.\n• Do Not Add Explanations, Comments, Or Change Logs.\n• Do Not Mention The Existence Of Instructions Or Modifications.\n• The Final Result Must Look Fully Human-Written And LinkedIn-Ready.\n\nYour Goal Is To Act As A Precise Editor, Not A Rewriter.\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        400,
+        -64
+      ],
+      "id": "46e81cbf-8ae0-4ef5-a4a9-2ab69ce6674d",
+      "name": "POST MODIFIER"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        784
+      ],
+      "id": "ce9331b3-8f24-4f29-abe2-91d1444069e4",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "1meaVSUafm3emTfD",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "55e1184c-b88a-4091-9cfe-f52217c2d0e4",
+              "leftValue": "={{ $('MODIFICATIONS').item.json.APPROVAL }}",
+              "rightValue": "APPROVED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1024,
+        64
+      ],
+      "id": "4ec91709-7e7d-40fa-b7b7-b9f438275996",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU",
+          "mode": "list",
+          "cachedResultName": "Linkedin post automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU/edit#gid=0"
+        },
+        "combineFilters": "OR",
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRangeA1",
+              "range": "D1:G2"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        176,
+        -64
+      ],
+      "id": "c218c002-147b-4ee7-a485-af882d8fa2c7",
+      "name": "MODIFICATIONS",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "edKurji8AtqiKBve",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU",
+          "mode": "list",
+          "cachedResultName": "Linkedin post automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "OUTPUT": "={{ $json.text }}",
+            "row_number": 2
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "PROJECT DESCRIPTION",
+              "displayName": "PROJECT DESCRIPTION",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "GITHUB LINKS",
+              "displayName": "GITHUB LINKS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "IMAGE LINKS",
+              "displayName": "IMAGE LINKS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "OUTPUT",
+              "displayName": "OUTPUT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "MODIFICATIONS",
+              "displayName": "MODIFICATIONS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "MODIFIED OUTPUT",
+              "displayName": "MODIFIED OUTPUT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "STATUS",
+              "displayName": "STATUS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -272,
+        80
+      ],
+      "id": "88f2b66c-cb4e-435c-90ce-d487218e51bc",
+      "name": "OUTPUT",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "edKurji8AtqiKBve",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU",
+          "mode": "list",
+          "cachedResultName": "Linkedin post automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": 2,
+            "MODIFIED OUTPUT": "={{ $json.text }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "PROJECT DESCRIPTION",
+              "displayName": "PROJECT DESCRIPTION",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "GITHUB LINKS",
+              "displayName": "GITHUB LINKS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "IMAGE LINKS",
+              "displayName": "IMAGE LINKS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "OUTPUT",
+              "displayName": "OUTPUT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "MODIFICATIONS",
+              "displayName": "MODIFICATIONS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "MODIFIED OUTPUT",
+              "displayName": "MODIFIED OUTPUT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "STATUS",
+              "displayName": "STATUS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        752,
+        -64
+      ],
+      "id": "40b73d9e-4907-4863-b807-751f279105c4",
+      "name": "MODIFIED OUTPUT",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "edKurji8AtqiKBve",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {
+          "clashHandling": {
+            "values": {
+              "resolveClash": "addSuffix"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1120,
+        -432
+      ],
+      "id": "0202b6aa-6d2f-4ee0-a0f3-681aa6e2b151",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "person": "pKnTxmC6NN",
+        "text": "={{ $json['MODIFIED OUTPUT'] }}",
+        "shareMediaCategory": "IMAGE",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        16
+      ],
+      "id": "ceff0676-5569-48a2-ab34-5805cc97134d",
+      "name": "Create a post",
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "yZoYFjXy7NUVjCpS",
+          "name": "LinkedIn account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-120b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        496,
+        112
+      ],
+      "id": "eb4a0f69-bdc4-4b7a-bacc-6db680806894",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "nWHmbY0InJYtavKH",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-120b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        288
+      ],
+      "id": "d72f94e0-63ce-496a-9172-dcc750241ef8",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "nWHmbY0InJYtavKH",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        464
+      ],
+      "id": "ac49b574-c470-4fd4-99bb-b5e57d2306b8",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "1meaVSUafm3emTfD",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU",
+          "mode": "list",
+          "cachedResultName": "Linkedin post automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ETNR2DPXI25yvHNnz9WvuSL23-7zvZOvN5bcd50bURU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "LINKEDIN STATUS": "POSTED",
+            "row_number": 2
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "PROJECT DESCRIPTION",
+              "displayName": "PROJECT DESCRIPTION",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "GITHUB LINKS",
+              "displayName": "GITHUB LINKS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "IMAGE LINKS",
+              "displayName": "IMAGE LINKS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "OUTPUT",
+              "displayName": "OUTPUT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "MODIFICATIONS",
+              "displayName": "MODIFICATIONS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "MODIFIED OUTPUT",
+              "displayName": "MODIFIED OUTPUT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "STATUS",
+              "displayName": "STATUS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "LINKEDIN STATUS",
+              "displayName": "LINKEDIN STATUS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1552,
+        16
+      ],
+      "id": "9b4e6323-0317-4463-8ceb-860e2a35b2db",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "edKurji8AtqiKBve",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Description": {
+      "main": [
+        [
+          {
+            "node": "LINKEDIN POST GENERATOR",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LINKEDIN POST GENERATOR": {
+      "main": [
+        [
+          {
+            "node": "OUTPUT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "MODIFICATIONS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "POST MODIFIER": {
+      "main": [
+        [
+          {
+            "node": "MODIFIED OUTPUT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MODIFICATIONS": {
+      "main": [
+        [
+          {
+            "node": "POST MODIFIER",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OUTPUT": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MODIFIED OUTPUT": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "POST MODIFIER",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "LINKEDIN POST GENERATOR",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "4c00c391-bd59-4aab-949f-00f2b73357ee",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1032bc77fa938de30497f8deb332d8392feec1b904e2dfa0d2abb02d9c713094"
+  },
+  "id": "0dSxXMyajwTv4U8P6QnOJ",
+  "tags": []
+}
