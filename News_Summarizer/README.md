@@ -6,7 +6,10 @@ This n8n workflow automatically collects the latest **cybersecurity news and eve
 It pulls news from trusted cybersecurity websites and Google Events, summarizes the content using **Google Gemini (AI)**, and emails the digest using **Gmail**.
 
 ---
+## Workflow Architecture
+![Workflow Architecture](assets/News_Summarizer_Automation.jpg)
 
+---
 ## What This Workflow Does (Simple Explanation)
 
 Every day, the workflow:
