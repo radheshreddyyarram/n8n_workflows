@@ -132,28 +132,27 @@ as:
 -   HTTP & Merge Nodes
 
 ------------------------------------------------------------------------
-
-## 🚀 Setup Instructions
-
-### 1. Import Workflow
-
-Import the provided `workflow.json` into n8n.
-
-### 2. Configure Credentials
-
-Connect: - Google Sheets OAuth - LinkedIn OAuth - Groq API / Gemini API
-
-### 3. Prepare Google Sheet
-
-Set up required columns as defined above.
-
-### 4. Run Workflow
-
--   Add project details
--   Set APPROVAL to APPROVED
--   Execute workflow
-
-The post will be published automatically.
+⚙️ Detailed Workflow Steps
+1️⃣ Description Node
+Triggers the workflow with project details.
+2️⃣ LinkedIn Post Generator
+Uses AI model to generate structured LinkedIn content:
+Hook line
+Problem
+Solution
+How it Works
+Tools Used
+3️⃣ Output Storage
+Saves generated content into Google Sheets.
+4️⃣ Modifications
+Reads modification requests from sheet and regenerates refined output.
+5️⃣ Approval Check (IF Node)
+If APPROVAL = APPROVED → Continue
+Else → Stop workflow
+6️⃣ Create LinkedIn Post
+Publishes the approved content directly to LinkedIn.
+7️⃣ Update Row in Sheet
+Changes STATUS to POSTED.
 
 ------------------------------------------------------------------------
 
