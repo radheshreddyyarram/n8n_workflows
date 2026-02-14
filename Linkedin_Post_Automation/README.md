@@ -135,25 +135,33 @@ as:
 ## ⚙️ Detailed Workflow Steps
 
 - 1️⃣ Description Node
-Triggers the workflow with project details.
+
+     Triggers the workflow with project details.
 - 2️⃣ LinkedIn Post Generator
-Uses AI model to generate structured LinkedIn content:
-Hook line
-Problem
-Solution
-How it Works
-Tools Used
+
+     Uses AI model to generate structured LinkedIn **content:**
+- Hook line
+- Problem
+- Solution
+- How it Works
+- Tools Used
+
 - 3️⃣ Output Storage
-Saves generated content into Google Sheets.
+
+     Saves generated content into Google Sheets.
 - 4️⃣ Modifications
-Reads modification requests from sheet and regenerates refined output.
+
+     Reads modification requests from sheet and         regenerates refined output.
 - 5️⃣ Approval Check (IF Node)
-If APPROVAL = APPROVED → Continue
+
+     If APPROVAL = APPROVED → Continue
 Else → Stop workflow
 - 6️⃣ Create LinkedIn Post
-Publishes the approved content directly to LinkedIn.
+
+     Publishes the approved content directly to LinkedIn.
 - 7️⃣ Update Row in Sheet
-Changes STATUS to POSTED.
+
+     Changes STATUS to POSTED in GOOGLE SHEETS.
 
 ------------------------------------------------------------------------
 
